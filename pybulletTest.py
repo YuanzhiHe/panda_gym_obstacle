@@ -678,9 +678,12 @@ class PyBulletTest:
         )
 
     def return_distance(self, obstacle_position, ee_position, object_position=None):
-        self.curr_euclid_dist = [np.linalg.norm(obstacle_position - ee_position)]
+        dist1 = np.linalg.norm(obstacle_position - ee_position)
         if object_position is not None:
-            self.curr_euclid_dist = [self.curr_euclid_dist, np.linalg.norm(obstacle_position - object_position)]
+            dist2 = np.linalg.norm(obstacle_position - object_position)
+            self.curr_euclid_dist = [dist1, dist2]
+        else:
+            self.curr_euclid_dist = [dist1]
 
     def is_collision(self, margin=0.022):
         ds = self.curr_euclid_dist
