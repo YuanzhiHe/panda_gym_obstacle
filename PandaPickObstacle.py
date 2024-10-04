@@ -1,7 +1,7 @@
 import datetime
 
 import gymnasium as gym
-import panda_gym
+# import panda_gym
 from sb3_contrib import TQC
 from stable_baselines3 import (
     DDPG,
@@ -10,10 +10,11 @@ from stable_baselines3 import (
     TD3,
 )
 from trainer import Trainer
+import envs
 
 env = gym.make(
-    "Panda-PickAndPlace-Obstacle",
-    render_mode="rgb_array",
+    "PandaPickAndPlace-Obstacle",
+    render_mode="human",
     distance_threshold=0.05,
     goal_xy_range=0.2,
 )

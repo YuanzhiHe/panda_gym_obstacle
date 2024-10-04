@@ -97,10 +97,14 @@ class PandaPickAndPlaceEnv(RobotTaskEnv):
         render_yaw: float = 45,
         render_pitch: float = -30,
         render_roll: float = 0,
+        distance_threshold: float = 0.05,
+        goal_xy_range: float = 0.3,
     ) -> None:
         sim = PyBulletTest(render_mode=render_mode, renderer=renderer)
         robot = Panda(sim, block_gripper=False, base_position=np.array([-0.6, 0.0, 0.0]), control_type=control_type)
-        task = PickAndPlace(sim, reward_type=reward_type)
+        task = PickAndPlace(sim, reward_type=reward_type,
+                            distance_threshold=distance_threshold,
+                            goal_xy_range=goal_xy_range)
         super().__init__(
             robot,
             task,
@@ -202,10 +206,11 @@ class PandaReachEnv(RobotTaskEnv):
         render_yaw: float = 45,
         render_pitch: float = -30,
         render_roll: float = 0,
+        distance_threshold: float = 0.05,
     ) -> None:
         sim = PyBulletTest(render_mode=render_mode, renderer=renderer)
         robot = Panda(sim, block_gripper=True, base_position=np.array([-0.6, 0.0, 0.0]), control_type=control_type)
-        task = Reach(sim, reward_type=reward_type, get_ee_position=robot.get_ee_position)
+        task = Reach(sim, reward_type=reward_type, get_ee_position=robot.get_ee_position, distance_threshold=distance_threshold)
         super().__init__(
             robot,
             task,
@@ -252,10 +257,15 @@ class PandaSlideEnv(RobotTaskEnv):
         render_yaw: float = 45,
         render_pitch: float = -30,
         render_roll: float = 0,
+        distance_threshold: float = 0.05,
+        goal_xy_range: float = 0.3,
     ) -> None:
         sim = PyBulletTest(render_mode=render_mode, renderer=renderer)
         robot = Panda(sim, block_gripper=True, base_position=np.array([-0.6, 0.0, 0.0]), control_type=control_type)
-        task = Slide(sim, reward_type=reward_type)
+        task = Slide(sim, reward_type=reward_type,
+                     distance_threshold=distance_threshold,
+                     goal_xy_range=goal_xy_range
+                     )
         super().__init__(
             robot,
             task,

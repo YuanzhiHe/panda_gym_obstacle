@@ -319,7 +319,8 @@ class RobotTaskEnv(gym.Env):
         self.sim.step()
         observation = self._get_obs()
         # An episode is terminated if the agent has reached the target
-        if self.task.__class__ == "Reach":
+        print(self.task.__class__)
+        if self.task.__class__.__name__ == "Reach":
             self.sim.return_distance(self.sim.get_base_position("obstacle1"), self.robot.get_ee_position())
         else:
             self.sim.return_distance(self.sim.get_base_position("obstacle1"), self.robot.get_ee_position(), self.sim.get_base_position("object"))
