@@ -14,6 +14,7 @@ class Push(Task):
         distance_threshold=0.05,
         goal_xy_range=0.3,
         obj_xy_range=0.3,
+        obs_num: int = 3
     ) -> None:
         super().__init__(sim)
         self.reward_type = reward_type
@@ -22,6 +23,7 @@ class Push(Task):
         self.obstacle2_pos = None
         self.obstacle3_pos = None
         self.object_size = 0.04
+        self.obs_num = obs_num
         self.goal_range_low = np.array([-goal_xy_range / 2, -goal_xy_range / 2, 0])
         self.goal_range_high = np.array([goal_xy_range / 2, goal_xy_range / 2, 0])
         self.obj_range_low = np.array([-obj_xy_range / 2, -obj_xy_range / 2, 0])

@@ -14,6 +14,7 @@ class Reach(Task):
         reward_type="sparse",
         distance_threshold=0.05,
         goal_range=0.3,
+        obs_num: int = 3
     ) -> None:
         super().__init__(sim)
         self.reward_type = reward_type
@@ -22,6 +23,7 @@ class Reach(Task):
         self.obstacle2_pos = None
         self.obstacle3_pos = None
         self.get_ee_position = get_ee_position
+        self.obs_num = obs_num
         self.goal_range_low = np.array([-goal_range / 2, -goal_range / 2, 0])
         self.goal_range_high = np.array([goal_range / 2, goal_range / 2, goal_range])
         self.obstacle_range = goal_range

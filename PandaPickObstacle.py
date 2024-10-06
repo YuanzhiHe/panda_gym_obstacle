@@ -16,7 +16,7 @@ env = gym.make(
     "PandaPickAndPlace-Obstacle",
     render_mode="human",
     distance_threshold=0.05,
-    goal_xy_range=0.2,
+    obs_num=2
 )
 
 model = TQC(policy="MultiInputPolicy",

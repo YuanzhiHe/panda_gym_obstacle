@@ -165,7 +165,6 @@ class Task(ABC):
     def __init__(self, sim: PyBulletTest) -> None:
         self.sim = sim
         self.goal = None
-        self.obs_num = 3
 
     @abstractmethod
     def reset(self) -> None:

@@ -15,6 +15,7 @@ class Slide(Task):
         goal_xy_range=0.3,
         goal_x_offset=0.4,
         obj_xy_range=0.3,
+        obs_num: int = 3
     ) -> None:
         super().__init__(sim)
         self.reward_type = reward_type
@@ -23,6 +24,7 @@ class Slide(Task):
         self.obstacle2_pos = None
         self.obstacle3_pos = None
         self.object_size = 0.06
+        self.obs_num = obs_num
         self.goal_range_low = np.array([-goal_xy_range / 2 + goal_x_offset, -goal_xy_range / 2, 0])
         self.goal_range_high = np.array([goal_xy_range / 2 + goal_x_offset, goal_xy_range / 2, 0])
         self.obj_range_low = np.array([-obj_xy_range / 2, -obj_xy_range / 2, 0])
