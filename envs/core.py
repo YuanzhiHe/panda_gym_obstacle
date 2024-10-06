@@ -165,6 +165,7 @@ class Task(ABC):
     def __init__(self, sim: PyBulletTest) -> None:
         self.sim = sim
         self.goal = None
+        self.obs_num = 3
 
     @abstractmethod
     def reset(self) -> None:
@@ -319,10 +320,16 @@ class RobotTaskEnv(gym.Env):
         self.sim.step()
         observation = self._get_obs()
         # An episode is terminated if the agent has reached the target
-        if self.task.__class__.__name__ == "Reach":
-            self.sim.return_distance(self.sim.get_base_position("obstacle1"), self.robot.get_ee_position())
+        if self.task.obs_num == 1:
+            obstacle_position = [self.sim.get_base_position("obstacle1")]
+        elif self.task.obs_num == 2:
+            obstacle_position = [self.sim.get_base_position("obstacle1"), self.sim.get_base_position("obstacle2")]
         else:
-            self.sim.return_distance(self.sim.get_base_position("obstacle1"), self.robot.get_ee_position(), self.sim.get_base_position("object"))
+            obstacle_position = [self.sim.get_base_position("obstacle1"), self.sim.get_base_position("obstacle2"), self.sim.get_base_position("obstacle3")]
+        if self.task.__class__.__name__ == "Reach":
+            self.sim.return_distance(obstacle_position, self.robot.get_ee_position())
+        else:
+            self.sim.return_distance(obstacle_position, self.robot.get_ee_position(), self.sim.get_base_position("object"))
 
         if self.sim.is_collision(self.obstacle_collision_margin):
             terminated = True

@@ -36,7 +36,7 @@ class Push(Task):
     def _create_scene(self) -> None:
         self.sim.create_plane(z_offset=-0.4)
         self.sim.create_table(length=1.3, width=2, height=0.4)
-        self.sim.create_obstacles(length=0.05, width=0.05, height=0.05)
+        self.sim.create_obstacles(length=0.05, width=0.05, height=0.05, obs_num=self.obs_num)
         self.sim.create_box(
             body_name="object",
             half_extents=np.ones(3) * self.object_size / 2,
@@ -78,11 +78,22 @@ class Push(Task):
     def reset(self) -> None:
         self.goal = self._sample_goal()
         object_position = self._sample_object()
-        self.obstacle1_pos = self._sample_obstacles(object_position)
 
         self.sim.set_base_pose("target", self.goal, np.array([0.0, 0.0, 0.0, 1.0]))
         self.sim.set_base_pose("object", object_position, np.array([0.0, 0.0, 0.0, 1.0]))
-        self.sim.set_base_pose("obstacle1", self.obstacle1_pos, np.array([0.0, 0.0, 0.0, 1.0]))
+
+        if self.obs_num == 1:
+            self.obstacle1_pos = self._sample_obstacles(object_position)
+            self.sim.set_base_pose("obstacle1", self.obstacle1_pos, np.array([0.0, 0.0, 0.0, 1.0]))
+        elif self.obs_num == 2:
+            self.obstacle1_pos, self.obstacle2_pos = self._sample_obstacles(object_position)
+            self.sim.set_base_pose("obstacle1", self.obstacle1_pos, np.array([0.0, 0.0, 0.0, 1.0]))
+            self.sim.set_base_pose("obstacle2", self.obstacle2_pos, np.array([0.0, 0.0, 0.0, 1.0]))
+        else:
+            self.obstacle1_pos, self.obstacle2_pos, self.obstacle3_pos = self._sample_obstacles(object_position)
+            self.sim.set_base_pose("obstacle1", self.obstacle1_pos, np.array([0.0, 0.0, 0.0, 1.0]))
+            self.sim.set_base_pose("obstacle2", self.obstacle2_pos, np.array([0.0, 0.0, 0.0, 1.0]))
+            self.sim.set_base_pose("obstacle3", self.obstacle3_pos, np.array([0.0, 0.0, 0.0, 1.0]))
 
     def _sample_goal(self) -> np.ndarray:
         """Randomize goal."""
@@ -99,20 +110,26 @@ class Push(Task):
         return object_position
 
     def _sample_obstacles(self, object_position):
-        position1 = np.random.uniform(self.obstacle_range_low, self.obstacle_range_high)
-        # position2 = np.random.uniform(self.obstacle_range_low, self.obstacle_range_high)
-        # position3 = np.random.uniform(self.obstacle_range_low, self.obstacle_range_high)
-
         min_dist_to_goal = 0.1
 
+        position1 = np.random.uniform(self.obstacle_range_low, self.obstacle_range_high)
         while distance(position1, self.goal) < min_dist_to_goal or distance(position1, object_position) < min_dist_to_goal:
             position1 = np.random.uniform(self.obstacle_range_low, self.obstacle_range_high)
-        # while distance(position2, self.goal) < min_dist_to_goal or distance(position2, object_position) < min_dist_to_goal:
-        #     position2 = np.random.uniform(self.obstacle_range_low, self.obstacle_range_high)
-        # while distance(position3, self.goal) < min_dist_to_goal or distance(position3, object_position) < min_dist_to_goal:
-        #     position3 = np.random.uniform(self.obstacle_range_low, self.obstacle_range_high)
-
-        return position1
+        if self.obs_num == 2:
+            position2 = np.random.uniform(self.obstacle_range_low, self.obstacle_range_high)
+            while distance(position2, self.goal) < min_dist_to_goal or distance(position2, object_position) < min_dist_to_goal:
+                position2 = np.random.uniform(self.obstacle_range_low, self.obstacle_range_high)
+            return position1, position2
+        elif self.obs_num == 3:
+            position2 = np.random.uniform(self.obstacle_range_low, self.obstacle_range_high)
+            while distance(position2, self.goal) < min_dist_to_goal or distance(position2, object_position) < min_dist_to_goal:
+                position2 = np.random.uniform(self.obstacle_range_low, self.obstacle_range_high)
+            position3 = np.random.uniform(self.obstacle_range_low, self.obstacle_range_high)
+            while distance(position3, self.goal) < min_dist_to_goal or distance(position3, object_position) < min_dist_to_goal:
+                position3 = np.random.uniform(self.obstacle_range_low, self.obstacle_range_high)
+            return position1, position2, position3
+        else:
+            return position1
 
     def is_success(self, achieved_goal: np.ndarray, desired_goal: np.ndarray) -> np.ndarray:
         d = distance(achieved_goal, desired_goal)

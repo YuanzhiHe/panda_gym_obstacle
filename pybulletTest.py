@@ -593,14 +593,52 @@ class PyBulletTest:
         if spinning_friction is not None:
             self.set_spinning_friction(body=body_name, link=-1, spinning_friction=spinning_friction)
 
-    def create_obstacles(self, length: float, width: float, height: float) -> None:
-        self.create_box(
-            body_name="obstacle1",
-            half_extents=np.array([length, width, height]) / 2,
-            position=np.array([0.45, 0.0, height / 2]),
-            mass=1.0,
-            rgba_color=np.array([1, 0, 0, 1]),
-        )
+    def create_obstacles(self, length: float, width: float, height: float, obs_num) -> None:
+        if obs_num == 1:
+            self.create_box(
+                body_name="obstacle1",
+                half_extents=np.array([length, width, height]) / 2,
+                position=np.array([0.45, 0.0, height / 2]),
+                mass=1.0,
+                rgba_color=np.array([1, 0, 0, 1]),
+            )
+        elif obs_num == 2:
+            self.create_box(
+                body_name="obstacle1",
+                half_extents=np.array([length, width, height]) / 2,
+                position=np.array([0.45, 0.0, height / 2]),
+                mass=1.0,
+                rgba_color=np.array([1, 0, 0, 1]),
+            )
+            self.create_box(
+                body_name="obstacle2",
+                half_extents=np.array([length, width, height]) / 2,
+                position=np.array([0.45, 0.0, height / 2]),
+                mass=1.0,
+                rgba_color=np.array([1, 0, 0, 1]),
+            )
+        else:
+            self.create_box(
+                body_name="obstacle1",
+                half_extents=np.array([length, width, height]) / 2,
+                position=np.array([0.45, 0.0, height / 2]),
+                mass=1.0,
+                rgba_color=np.array([1, 0, 0, 1]),
+            )
+            self.create_box(
+                body_name="obstacle2",
+                half_extents=np.array([length, width, height]) / 2,
+                position=np.array([0.45, 0.0, height / 2]),
+                mass=1.0,
+                rgba_color=np.array([1, 0, 0, 1]),
+            )
+            self.create_box(
+                body_name="obstacle3",
+                half_extents=np.array([length, width, height]) / 2,
+                position=np.array([0.45, 0.0, height / 2]),
+                mass=1.0,
+                rgba_color=np.array([1, 0, 0, 1]),
+            )
 
     def create_plane(self, z_offset: float) -> None:
         """Create a plane. (Actually, it is a thin box.)
@@ -678,17 +716,30 @@ class PyBulletTest:
         )
 
     def return_distance(self, obstacle_position, ee_position, object_position=None):
-        dist1 = np.linalg.norm(obstacle_position - ee_position)
+        dist1 = np.linalg.norm(obstacle_position[0] - ee_position)
         if object_position is not None:
-            dist2 = np.linalg.norm(obstacle_position - object_position)
-            self.curr_euclid_dist = [dist1, dist2]
+            dist2 = np.linalg.norm(obstacle_position[0] - object_position)
+            self.curr_euclid_dist = min(dist1, dist2)
         else:
-            self.curr_euclid_dist = [dist1]
+            self.curr_euclid_dist = dist1
+
+        if len(obstacle_position) == 2:
+            dist21 = np.linalg.norm(obstacle_position[1] - ee_position)
+            if object_position is not None:
+                dist22 = np.linalg.norm(obstacle_position[1] - object_position)
+                self.curr_euclid_dist = min(self.curr_euclid_dist, dist21, dist22)
+            else:
+                self.curr_euclid_dist = min(self.curr_euclid_dist, dist21)
+        elif len(obstacle_position) == 3:
+            dist31 = np.linalg.norm(obstacle_position[2] - ee_position)
+            if object_position is not None:
+                dist32 = np.linalg.norm(obstacle_position[2] - object_position)
+                self.curr_euclid_dist = min(self.curr_euclid_dist, dist31, dist32)
+            else:
+                self.curr_euclid_dist = min(self.curr_euclid_dist, dist31)
 
     def is_collision(self, margin=0.022):
         ds = self.curr_euclid_dist
-        if len(ds) == 2:
-            collision = ds[0] < margin or ds[1] < margin
-        else:
-            collision = ds[0] < margin
+        collision = ds < margin
+
         return collision
