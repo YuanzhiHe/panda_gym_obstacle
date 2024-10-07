@@ -13,6 +13,7 @@ class Push(Task):
         reward_type="sparse",
         distance_threshold=0.05,
         goal_xy_range=0.3,
+        goal_x_offset=0.4,
         obj_xy_range=0.3,
         obs_num: int = 3
     ) -> None:
@@ -24,13 +25,13 @@ class Push(Task):
         self.obstacle3_pos = None
         self.object_size = 0.04
         self.obs_num = obs_num
-        self.goal_range_low = np.array([-goal_xy_range / 2, -goal_xy_range / 2, 0])
-        self.goal_range_high = np.array([goal_xy_range / 2, goal_xy_range / 2, 0])
+        self.goal_range_low = np.array([-goal_xy_range / 2 + goal_x_offset, -goal_xy_range / 2, 0])
+        self.goal_range_high = np.array([goal_xy_range / 2 + goal_x_offset, goal_xy_range / 2, 0])
         self.obj_range_low = np.array([-obj_xy_range / 2, -obj_xy_range / 2, 0])
         self.obj_range_high = np.array([obj_xy_range / 2, obj_xy_range / 2, 0])
         self.obstacle_range = goal_xy_range
-        self.obstacle_range_low = np.array([0.5 - (self.obstacle_range / 2), -self.obstacle_range / 2, 0.05])
-        self.obstacle_range_high = np.array([0.5 + (self.obstacle_range / 2), self.obstacle_range / 2, 0.05])
+        self.obstacle_range_low = np.array([0.2 - (self.obstacle_range / 2), -self.obstacle_range / 2, 0.05])
+        self.obstacle_range_high = np.array([0.2 + (self.obstacle_range / 2), self.obstacle_range / 2, 0.05])
         with self.sim.no_rendering():
             self._create_scene()
 
@@ -71,6 +72,12 @@ class Push(Task):
                 obstacle_position
             ]
         )
+        if self.obs_num > 1:
+            obstacle_position = self.obstacle2_pos
+            observation = np.concatenate([observation, obstacle_position])
+        if self.obs_num == 3:
+            obstacle_position = self.obstacle3_pos
+            observation = np.concatenate([observation, obstacle_position])
         return observation
 
     def get_achieved_goal(self) -> np.ndarray:
@@ -112,7 +119,7 @@ class Push(Task):
         return object_position
 
     def _sample_obstacles(self, object_position):
-        min_dist_to_goal = 0.1
+        min_dist_to_goal = 0.25
 
         position1 = np.random.uniform(self.obstacle_range_low, self.obstacle_range_high)
         while distance(position1, self.goal) < min_dist_to_goal or distance(position1, object_position) < min_dist_to_goal:

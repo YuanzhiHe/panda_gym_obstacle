@@ -17,7 +17,7 @@ env = gym.make(
     render_mode="rgb_array",
     distance_threshold=0.05,
     goal_xy_range=0.2,
-    obs_num=3
+    obs_num=1
 )
 
 model = TQC(policy="MultiInputPolicy",
