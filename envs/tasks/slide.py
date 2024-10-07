@@ -121,7 +121,7 @@ class Slide(Task):
         return object_position
 
     def _sample_obstacles(self, object_position):
-        min_dist_to_goal = 0.25
+        min_dist_to_goal = 0.15
 
         position1 = np.random.uniform(self.obstacle_range_low, self.obstacle_range_high)
         while distance(position1, self.goal) < min_dist_to_goal or distance(position1, object_position) < min_dist_to_goal:

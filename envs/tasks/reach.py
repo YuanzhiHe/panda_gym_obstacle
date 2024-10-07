@@ -84,7 +84,7 @@ class Reach(Task):
         return goal
 
     def _sample_obstacles(self):
-        min_dist_to_goal = 0.25
+        min_dist_to_goal = 0.15
 
         position1 = np.random.uniform(self.obstacle_range_low, self.obstacle_range_high)
         while distance(position1, self.goal) < min_dist_to_goal:
