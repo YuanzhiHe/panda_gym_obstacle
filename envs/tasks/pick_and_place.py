@@ -25,7 +25,7 @@ class PickAndPlace(Task):
         self.obstacle1_pos = None
         self.obstacle2_pos = None
         self.obstacle3_pos = None
-        self.object_size = 0.04
+        self.object_size = 0.06
         self.obs_num = obs_num
         self.goal_range_low = np.array([-goal_xy_range / 2 + goal_x_offset, -goal_xy_range / 2, 0])
         self.goal_range_high = np.array([goal_xy_range / 2 + goal_x_offset, goal_xy_range / 2, goal_z_range])
@@ -40,7 +40,7 @@ class PickAndPlace(Task):
     def _create_scene(self) -> None:
         """Create the scene."""
         self.sim.create_plane(z_offset=-0.4)
-        self.sim.create_table(length=1.3, width=2, height=0.4)
+        self.sim.create_table(length=1.4, width=2, height=0.4)
         self.sim.create_obstacles(length=0.05, width=0.05, height=0.05, obs_num=self.obs_num)
         self.sim.create_box(
             body_name="object",

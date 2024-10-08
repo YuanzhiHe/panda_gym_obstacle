@@ -34,7 +34,7 @@ class Reach(Task):
 
     def _create_scene(self) -> None:
         self.sim.create_plane(z_offset=-0.4)
-        self.sim.create_table(length=1.3, width=2, height=0.4)
+        self.sim.create_table(length=1.4, width=2, height=0.4)
         self.sim.create_obstacles(length=0.05, width=0.05, height=0.05, obs_num=self.obs_num)
         self.sim.create_sphere(
             body_name="target",
