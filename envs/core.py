@@ -318,24 +318,30 @@ class RobotTaskEnv(gym.Env):
         self.robot.set_action(action)
         self.sim.step()
         observation = self._get_obs()
+        obstacle_position = None
         # An episode is terminated if the agent has reached the target
         if self.task.obs_num == 1:
             obstacle_position = [self.sim.get_base_position("obstacle1")]
         elif self.task.obs_num == 2:
             obstacle_position = [self.sim.get_base_position("obstacle1"), self.sim.get_base_position("obstacle2")]
-        else:
+        elif self.task.obs_num == 3:
             obstacle_position = [self.sim.get_base_position("obstacle1"), self.sim.get_base_position("obstacle2"), self.sim.get_base_position("obstacle3")]
-        if self.task.__class__.__name__ == "Reach":
-            self.sim.return_distance(obstacle_position, self.robot.get_ee_position())
-        else:
-            self.sim.return_distance(obstacle_position, self.robot.get_ee_position(), self.sim.get_base_position("object"))
-
-        if self.sim.is_collision(self.obstacle_collision_margin):
-            terminated = True
-            info = {"is_success": False, "is_collision": True}
-        else:
+        if obstacle_position is None:
             terminated = bool(self.task.is_success(observation["achieved_goal"], self.task.get_goal()))
-            info = {"is_success": terminated, "is_collision": False}
+            info = {"is_success": terminated}
+        else:
+            if self.task.__class__.__name__ == "Reach":
+                self.sim.return_distance(obstacle_position, self.robot.get_ee_position())
+            else:
+                self.sim.return_distance(obstacle_position, self.robot.get_ee_position(), self.sim.get_base_position("object"))
+
+            if self.sim.is_collision(self.obstacle_collision_margin):
+                terminated = True
+                info = {"is_success": False, "is_collision": True}
+            else:
+                terminated = bool(self.task.is_success(observation["achieved_goal"], self.task.get_goal()))
+                info = {"is_success": terminated, "is_collision": False}
+
         truncated = False
         reward = float(self.task.compute_reward(observation["achieved_goal"], self.task.get_goal(), info))
         return observation, reward, terminated, truncated, info

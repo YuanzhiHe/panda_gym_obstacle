@@ -617,7 +617,7 @@ class PyBulletTest:
                 mass=1.0,
                 rgba_color=np.array([1, 0, 0, 1]),
             )
-        else:
+        elif obs_num == 3:
             self.create_box(
                 body_name="obstacle1",
                 half_extents=np.array([length, width, height]) / 2,
