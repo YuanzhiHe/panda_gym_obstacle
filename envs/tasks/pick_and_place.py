@@ -25,7 +25,7 @@ class PickAndPlace(Task):
         self.obstacle1_pos = None
         self.obstacle2_pos = None
         self.obstacle3_pos = None
-        self.object_size = 0.06
+        self.object_size = 0.04
         self.obs_num = obs_num
         self.goal_range_low = np.array([-goal_xy_range / 2 + goal_x_offset, -goal_xy_range / 2, 0])
         self.goal_range_high = np.array([goal_xy_range / 2 + goal_x_offset, goal_xy_range / 2, goal_z_range])
