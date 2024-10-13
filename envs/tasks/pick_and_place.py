@@ -14,7 +14,7 @@ class PickAndPlace(Task):
         reward_type: str = "sparse",
         distance_threshold: float = 0.05,
         goal_xy_range: float = 0.3,
-        goal_x_offset = 0.3,
+        goal_x_offset = 0.4,
         goal_z_range: float = 0.2,
         obj_xy_range: float = 0.3,
         obs_num: int = 3
@@ -32,8 +32,8 @@ class PickAndPlace(Task):
         self.obj_range_low = np.array([-obj_xy_range / 2, -obj_xy_range / 2, 0])
         self.obj_range_high = np.array([obj_xy_range / 2, obj_xy_range / 2, 0])
         self.obstacle_range = goal_xy_range
-        self.obstacle_range_low = np.array([0.4 - self.obstacle_range, -self.obstacle_range, 0.05])
-        self.obstacle_range_high = np.array([0.4 + self.obstacle_range, self.obstacle_range, 0.05])
+        self.obstacle_range_low = np.array([0.5 - self.obstacle_range / 2, -self.obstacle_range / 2, 0.05])
+        self.obstacle_range_high = np.array([0.5 + self.obstacle_range / 2, self.obstacle_range / 2, 0.05])
         with self.sim.no_rendering():
             self._create_scene()
 
