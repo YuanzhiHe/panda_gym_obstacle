@@ -14,7 +14,7 @@ class PickAndPlace(Task):
         reward_type: str = "sparse",
         distance_threshold: float = 0.05,
         goal_xy_range: float = 0.3,
-        goal_x_offset = 0.4,
+        goal_x_offset = 0,
         goal_z_range: float = 0.2,
         obj_xy_range: float = 0.3,
         obs_num: int = 3
