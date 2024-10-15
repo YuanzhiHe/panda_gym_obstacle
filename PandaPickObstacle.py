@@ -35,7 +35,7 @@ model = TQC(policy="MultiInputPolicy",
             policy_kwargs=dict(net_arch=[512, 512, 512], n_critics=2),
 )
 
-trainer = Trainer(model=model, target_step=1000_000)
+trainer = Trainer(model=model, target_step=2000_000)
 
 trainer.train()
 print(datetime.datetime.now())
