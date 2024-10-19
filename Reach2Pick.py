@@ -47,12 +47,12 @@ model2 = TQC(policy="MultiInputPolicy",
 )
 
 original_first_layer = [model.critic.q_networks[0][0], model.critic.q_networks[1][0]]
-model2.critic.q_networks[0][0].weight.data[:,:6] = original_first_layer[0].weight.data[:,:6]
-model2.critic.q_networks[0][0].weight.data[:,19:22] = original_first_layer[0].weight.data[:,6:9]
-model2.critic.q_networks[0][0].weight.data[:,23:] = original_first_layer[0].weight.data[:,9:]
-model2.critic.q_networks[1][0].weight.data[:,:6] = original_first_layer[1].weight.data[:,:6]
-model2.critic.q_networks[1][0].weight.data[:,20:23] = original_first_layer[1].weight.data[:,6:9]
-model2.critic.q_networks[1][0].weight.data[:,23:] = original_first_layer[1].weight.data[:,9:]
+model2.critic.q_networks[0][0].weight.data[:,:7] = original_first_layer[0].weight.data[:,:7]
+model2.critic.q_networks[0][0].weight.data[:,20:23] = original_first_layer[0].weight.data[:,7:10]
+model2.critic.q_networks[0][0].weight.data[:,24:] = original_first_layer[0].weight.data[:,10:]
+model2.critic.q_networks[1][0].weight.data[:,:7] = original_first_layer[1].weight.data[:,:7]
+model2.critic.q_networks[1][0].weight.data[:,20:23] = original_first_layer[1].weight.data[:,7:10]
+model2.critic.q_networks[1][0].weight.data[:,24:] = original_first_layer[1].weight.data[:,10:]
 
 model2.critic.q_networks[0][0].bias.data = original_first_layer[0].bias.data
 model2.critic.q_networks[1][0].bias.data = original_first_layer[1].bias.data
