@@ -31,3 +31,9 @@ for task in ["Reach", "Slide", "Push", "PickAndPlace", "Stack", "Flip"]:
             )
 
             ENV_IDS.append(env_id)
+
+register(
+    id="RoboRL-Navigator-Panda-ROS",
+    entry_point="envs.robots.env_panda_ros:PandaROSEnv",
+    max_episode_steps=50,
+)

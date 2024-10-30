@@ -1,24 +1,35 @@
 from typing import Any, Dict
 
 import numpy as np
-
+from typing import (
+    Any,
+    Dict,
+    Optional,
+    TypeVar
+)
+from utils import distance, euler_to_quaternion
 from envs.core import Task
-from utils import distance
 
 
 class Reach(Task):
     def __init__(
         self,
         sim,
+        robot,
         get_ee_position,
         reward_type="sparse",
         distance_threshold=0.05,
         goal_range=0.3,
+        orientation_task: Optional[bool] = False,
+        demonstration: Optional[bool] = False,
         obs_num: int = 3
     ) -> None:
         super().__init__(sim)
+        self.robot = robot
         self.reward_type = reward_type
+        self.orientation_task = orientation_task
         self.distance_threshold = distance_threshold
+        self.demonstration = demonstration
         self.obstacle1_pos = None
         self.obstacle2_pos = None
         self.obstacle3_pos = None
@@ -58,25 +69,35 @@ class Reach(Task):
 
     def get_achieved_goal(self) -> np.ndarray:
         ee_position = np.array(self.get_ee_position())
+        if self.orientation_task:
+            ee_orientation = np.array(self.robot.get_ee_orientation())[:2]
+            return np.concatenate([
+                ee_position,
+                ee_orientation,
+            ])
         return ee_position
 
     def reset(self) -> None:
         self.goal = self._sample_goal()
+        if not self.demonstration:
+            self.sim.set_base_pose("target", self.goal, np.array([0.0, 0.0, 0.0, 1.0]))
 
-        self.sim.set_base_pose("target", self.goal, np.array([0.0, 0.0, 0.0, 1.0]))
+            if self.obs_num == 1:
+                self.obstacle1_pos = self._sample_obstacles()
+                self.sim.set_base_pose("obstacle1", self.obstacle1_pos, np.array([0.0, 0.0, 0.0, 1.0]))
+            elif self.obs_num == 2:
+                self.obstacle1_pos, self.obstacle2_pos = self._sample_obstacles()
+                self.sim.set_base_pose("obstacle1", self.obstacle1_pos, np.array([0.0, 0.0, 0.0, 1.0]))
+                self.sim.set_base_pose("obstacle2", self.obstacle2_pos, np.array([0.0, 0.0, 0.0, 1.0]))
+            else:
+                self.obstacle1_pos, self.obstacle2_pos, self.obstacle3_pos = self._sample_obstacles()
+                self.sim.set_base_pose("obstacle1", self.obstacle1_pos, np.array([0.0, 0.0, 0.0, 1.0]))
+                self.sim.set_base_pose("obstacle2", self.obstacle2_pos, np.array([0.0, 0.0, 0.0, 1.0]))
+                self.sim.set_base_pose("obstacle3", self.obstacle3_pos, np.array([0.0, 0.0, 0.0, 1.0]))
 
-        if self.obs_num == 1:
-            self.obstacle1_pos = self._sample_obstacles()
-            self.sim.set_base_pose("obstacle1", self.obstacle1_pos, np.array([0.0, 0.0, 0.0, 1.0]))
-        elif self.obs_num == 2:
-            self.obstacle1_pos, self.obstacle2_pos = self._sample_obstacles()
-            self.sim.set_base_pose("obstacle1", self.obstacle1_pos, np.array([0.0, 0.0, 0.0, 1.0]))
-            self.sim.set_base_pose("obstacle2", self.obstacle2_pos, np.array([0.0, 0.0, 0.0, 1.0]))
-        else:
-            self.obstacle1_pos, self.obstacle2_pos, self.obstacle3_pos = self._sample_obstacles()
-            self.sim.set_base_pose("obstacle1", self.obstacle1_pos, np.array([0.0, 0.0, 0.0, 1.0]))
-            self.sim.set_base_pose("obstacle2", self.obstacle2_pos, np.array([0.0, 0.0, 0.0, 1.0]))
-            self.sim.set_base_pose("obstacle3", self.obstacle3_pos, np.array([0.0, 0.0, 0.0, 1.0]))
+            if self.orientation_task:
+                goal_orientation = euler_to_quaternion([self.goal[3], self.goal[4], 0])
+                self.sim.set_base_pose("target_orientation_mark", self.goal[:3], goal_orientation)
 
     def _sample_goal(self) -> np.ndarray:
         """Randomize goal."""
