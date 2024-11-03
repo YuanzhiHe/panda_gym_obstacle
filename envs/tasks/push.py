@@ -144,23 +144,33 @@ class Push(Task):
         d = distance(achieved_goal, desired_goal)
         return np.array(d < self.distance_threshold, dtype=bool)
 
-    def compute_reward(self, achieved_goal, desired_goal, info: Dict[str, Any], obstacle_dist=np.array([0.15])) -> np.ndarray:
+    def compute_reward(self, achieved_goal, desired_goal, info: Dict[str, Any]) -> np.ndarray:
         d = distance(achieved_goal, desired_goal)
         if self.reward_type == "sparse":
             return -np.array(d > self.distance_threshold, dtype=np.float32)
         else:
             goal_reward = -d.astype(np.float32)
 
+            # Recognize if the obstacles are between the two goals, if yes, give a 0.15 penalty to the reward
+            penalty = 0.0
+            obs_poses = [self.obstacle1_pos, self.obstacle2_pos, self.obstacle3_pos]
+            object_position = self.sim.get_base_position("object")
+            for i in range(self.obs_num):
+                if np.linalg.norm(np.cross(obs_poses[i]-self.goal, object_position-self.goal)) < self.object_size:
+                    if distance(object_position, self.goal) > distance(obs_poses[i], self.goal):
+                        penalty = 0.15
+                        break
+
             # Vector distance reward function
             # -----------------------------------------
-            # dist_x, dist_y, dist_z = obstacle_dist
+            # pos_x, pos_y, pos_z = obstacle_pos
             # reward_x = np.clip(-(0.15-dist_x)/3, -0.15, 0.0)
             # reward_y = np.clip(-(0.15-dist_y)/3, -0.15, 0.0)
             # reward_z = np.clip(-(0.15-dist_z)/3, -0.15, 0.0)
             # dist_reward = (reward_x + reward_y + reward_z).astype(np.float32)
 
-            dist_reward = np.clip(-(0.15 - obstacle_dist).astype(np.float32), -0.15, 0.0)
+            # dist_reward = np.clip(-(0.15 - obstacle_dist).astype(np.float32), -0.15, 0.0)
 
-            reward = dist_reward + goal_reward
+            reward = goal_reward - penalty
 
             return reward

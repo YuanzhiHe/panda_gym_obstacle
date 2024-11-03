@@ -9,12 +9,15 @@ from stable_baselines3 import (
     SAC,
     TD3,
 )
+
+from envs import reward_type
 from trainer import Trainer
 import envs
 
 env = gym.make(
     "PandaPush-Obstacle",
     render_mode="rgb_array",
+    reward_type="dense",
     distance_threshold=0.05,
     goal_xy_range=0.2,
     obs_num=1
