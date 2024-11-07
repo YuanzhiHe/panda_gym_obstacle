@@ -10,7 +10,6 @@ from stable_baselines3 import (
     TD3,
 )
 
-from envs import reward_type
 from trainer import Trainer
 import envs
 
