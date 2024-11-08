@@ -342,7 +342,6 @@ class RobotTaskEnv(gym.Env):
                 info = {"is_success": terminated, "is_collision": False}
         truncated = False
         reward = float(self.task.compute_reward(observation["achieved_goal"], self.task.get_goal(), info))
-        print(reward)
         return observation, reward, terminated, truncated, info
 
     def close(self) -> None:

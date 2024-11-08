@@ -14,7 +14,7 @@ import envs
 
 env = gym.make(
     "PandaReachAndPick",
-    render_mode="human",
+    render_mode="rgb_array",
     obs_num=0
 )
 
