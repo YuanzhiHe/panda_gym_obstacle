@@ -3,6 +3,7 @@ from typing import Any, Dict
 import numpy
 import numpy as np
 
+from envs.robots.panda import Panda
 from envs.core import Task
 from pybulletTest import PyBulletTest
 from utils import distance
@@ -12,6 +13,7 @@ class ReachAndPick(Task):
     def __init__(
         self,
         sim: PyBulletTest,
+        robot: Panda,
         reward_type: str = "sparse",
         distance_threshold: float = 0.05,
         goal_xy_range: float = 0.3,
@@ -20,6 +22,7 @@ class ReachAndPick(Task):
         obs_num: int = 0
     ) -> None:
         super().__init__(sim)
+        self.robot = robot
         self.reward_type = reward_type
         self.distance_threshold = distance_threshold
         self.object_size = 0.04
@@ -91,16 +94,22 @@ class ReachAndPick(Task):
         return np.array(d < self.distance_threshold, dtype=bool)
 
     def compute_reward(self, achieved_goal, desired_goal, info: Dict[str, Any]) -> np.ndarray:
-        d = distance(achieved_goal, desired_goal)
+        d2 = distance(achieved_goal, desired_goal)
         if self.reward_type == "sparse":
-            reward = -np.array(d > self.distance_threshold, dtype=np.float32)
-            if type(reward) is numpy.float32:
-                if reward == 0.0:
-                    reward = reward - 0.5
+            if type(d2) is numpy.float64:
+                if d2 < self.distance_threshold:
+                    return -np.array(d2 > self.distance_threshold, dtype=np.float32)
+                else:
+                    d1 = distance(self.robot.get_ee_position(), achieved_goal)
+                    reward = -np.array(d1 > self.distance_threshold, dtype=np.float32)
+                    if reward == 0.0:
+                        reward = reward - 0.5
+                    # else:
+                    #     for num in range(len(reward)):
+                    #         if reward[num] == 0.0 or reward[num] == -0.0:
+                    #             reward[num] = reward[num] - 0.5
+                    return reward
             else:
-                for num in range(len(reward)):
-                    if reward[num] == 0.0 or reward[num] == -0.0:
-                        reward[num] = reward[num] - 0.5
-            return reward
+                return -np.array(d2 > self.distance_threshold, dtype=np.float32)
         else:
-            return -d.astype(np.float32)
+            return -d2.astype(np.float32)

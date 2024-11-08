@@ -160,7 +160,7 @@ class PandaReachAndPickEnv(RobotTaskEnv):
     ) -> None:
         sim = PyBulletTest(render_mode=render_mode, renderer=renderer)
         robot = Panda(sim, block_gripper=False, base_position=np.array([-0.6, 0.0, 0.0]), control_type=control_type)
-        task = ReachAndPick(sim, reward_type=reward_type,
+        task = ReachAndPick(sim, robot, reward_type=reward_type,
                             distance_threshold=distance_threshold,
                             goal_xy_range=goal_xy_range,
                             obs_num=obs_num)
@@ -175,6 +175,7 @@ class PandaReachAndPickEnv(RobotTaskEnv):
             render_pitch=render_pitch,
             render_roll=render_roll,
         )
+
 
 class PandaPushEnv(RobotTaskEnv):
     """Push task wih Panda robot.
