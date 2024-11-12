@@ -44,3 +44,9 @@ register(
     entry_point="envs.panda_tasks:PandaReachAndPickEnv",
     max_episode_steps=50,
 )
+
+register(
+    id="PandaPushAndPick",
+    entry_point="envs.panda_tasks:PandaPushAndPickEnv",
+    max_episode_steps=100,
+)

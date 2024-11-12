@@ -24,10 +24,12 @@ class Panda(PyBulletRobot):
         block_gripper: bool = False,
         base_position: Optional[np.ndarray] = None,
         control_type: str = "ee",
+        multi_task_gripper = None
     ) -> None:
         base_position = base_position if base_position is not None else np.zeros(3)
         self.block_gripper = block_gripper
         self.control_type = control_type
+        self.multi_task_gripper = multi_task_gripper
         n_action = 3 if self.control_type == "ee" else 7  # control (x, y z) if "ee", else, control the 7 joints
         n_action += 0 if self.block_gripper else 1
         action_space = spaces.Box(-1.0, 1.0, shape=(n_action,), dtype=np.float32)
@@ -112,7 +114,10 @@ class Panda(PyBulletRobot):
         ee_velocity = np.array(self.get_ee_velocity())
         # fingers opening
         if not self.block_gripper:
-            fingers_width = self.get_fingers_width()
+            if self.multi_task_gripper == "Push":
+                fingers_width = 0.0
+            else:
+                fingers_width = self.get_fingers_width()
             observation = np.concatenate((ee_position, ee_velocity, [fingers_width]))
         else:
             observation = np.concatenate((ee_position, ee_velocity))

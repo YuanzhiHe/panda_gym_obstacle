@@ -268,10 +268,11 @@ class RobotTaskEnv(gym.Env):
         task_obs = self.task.get_obs().astype(np.float32)  # object position, velocity, etc...
         observation = np.concatenate([robot_obs, task_obs])
         achieved_goal = self.task.get_achieved_goal().astype(np.float32)
+        desired_goal = self.task.get_goal().astype(np.float32)
         return {
             "observation": observation,
             "achieved_goal": achieved_goal,
-            "desired_goal": self.task.get_goal().astype(np.float32),
+            "desired_goal": desired_goal,
         }
 
     def reset(
