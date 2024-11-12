@@ -67,6 +67,8 @@ class Panda(PyBulletRobot):
             fingers_ctrl = action[-1] * 0.2  # limit maximum change in position
             fingers_width = self.get_fingers_width()
             target_fingers_width = fingers_width + fingers_ctrl
+            if self.multi_task_gripper == "Push":
+                target_fingers_width = 0
 
         target_angles = np.concatenate((target_arm_angles, [target_fingers_width / 2, target_fingers_width / 2]))
         self.control_joints(target_angles=target_angles)
