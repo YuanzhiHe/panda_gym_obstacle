@@ -54,7 +54,7 @@ class PushAndPick(Task):
             mass=0.0,
             ghost=True,
             position=np.array([0.0, 0.0, 0.05]),
-            rgba_color=np.array([0.1, 0.9, 0.1, 0.3]),
+            rgba_color=np.array([1, 0, 0, 1]),
         )
         self.sim.create_box(
             body_name="target2",
@@ -62,7 +62,7 @@ class PushAndPick(Task):
             mass=0.0,
             ghost=True,
             position=np.array([0.0, 0.0, 0.05]),
-            rgba_color=np.array([0.1, 0.9, 0.1, 0.3]),
+            rgba_color=np.array([1, 1, 1, 1]),
         )
 
     def get_obs(self) -> np.ndarray:
