@@ -107,7 +107,7 @@ class PushAndPick(Task):
 
     def is_success(self, achieved_goal: np.ndarray, desired_goal: np.ndarray) -> np.ndarray:
         # Succeed only if the final desired goal (PickAndPlace) is achieved
-        if desired_goal is self.tmp_goal[1]:
+        if desired_goal.all() == self.tmp_goal[1].all():
             d = distance(achieved_goal, self.tmp_goal[1])
             return np.array(d < self.distance_threshold, dtype=bool)
         else:
