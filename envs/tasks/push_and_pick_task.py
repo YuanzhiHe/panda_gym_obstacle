@@ -22,7 +22,7 @@ class PushAndPick(Task):
         obs_num: int = 0
     ) -> None:
         super().__init__(sim)
-        self.mode = "Push"
+        # self.mode = "Push"
         self.robot = robot
         self.robot.multi_task_gripper = "Push"
         self.tmp_goal = None
@@ -79,6 +79,7 @@ class PushAndPick(Task):
         return object_position
 
     def reset(self) -> None:
+        self.robot.multi_task_gripper = "Push"
         self.tmp_goal = [self._sample_goal("Push"), self._sample_goal("Pick")]
         if self.robot.multi_task_gripper == "Push":
             self.goal = self.tmp_goal[0]
@@ -118,9 +119,8 @@ class PushAndPick(Task):
         if self.reward_type == "sparse":
             if type(d) is numpy.float64:
                 reward = -np.array(d > self.distance_threshold, dtype=np.float32)
-                if self.mode == "Push" and reward == 0.0:
+                if self.robot.multi_task_gripper == "Push" and reward == 0.0:
                     reward = reward - 0.5
-                    self.mode = "Pick"
                     self.robot.multi_task_gripper = "Pick"
                 return reward
             else:
