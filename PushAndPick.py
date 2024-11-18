@@ -32,6 +32,7 @@ model = TQC(policy="MultiInputPolicy",
             learning_rate=0.001,
             verbose=1,
             policy_kwargs=dict(net_arch=[512, 512, 512], n_critics=2),
+            device="cuda"
 )
 
 trainer = Trainer(model=model, target_step=3000_000)
