@@ -33,13 +33,13 @@ env3 = gym.make(
 )
 
 # PC use
-model2 = TQC.load("/home/yuanzhihe/PycharmProjects/csv2matplotlib/models/PandaReach/model", env=env3)
-model1 = TQC.load("/home/yuanzhihe/PycharmProjects/csv2matplotlib/models/PandaPick/model", env=env1)
-model = TQC.load("/home/yuanzhihe/PycharmProjects/csv2matplotlib/models/PandaPush2/model", env=env2)
+# model2 = TQC.load("/home/yuanzhihe/PycharmProjects/csv2matplotlib/models/PandaReach/model", env=env3)
+# model1 = TQC.load("/home/yuanzhihe/PycharmProjects/csv2matplotlib/models/PandaPick/model", env=env1)
+# model = TQC.load("/home/yuanzhihe/PycharmProjects/csv2matplotlib/models/PandaPush2/model", env=env2)
 # supercomputer use
-# model2 = TQC.load("/scratch/c.c23089110/panda_gym_obstacle/models/PandaReach/model", env=env3)
-# model1 = TQC.load("/scratch/c.c23089110/panda_gym_obstacle/models/PandaPick/model", env=env1)
-# model = TQC.load("/scratch/c.c23089110/panda_gym_obstacle/models/PandaPush2/model", env=env2)
+model2 = TQC.load("/scratch/c.c23089110/panda_gym_obstacle/models/PandaReach/model", env=env3)
+model1 = TQC.load("/scratch/c.c23089110/panda_gym_obstacle/models/PandaPick/model", env=env1)
+model = TQC.load("/scratch/c.c23089110/panda_gym_obstacle/models/PandaPush2/model", env=env2)
 
 model3 = TQC(policy="MultiInputPolicy",
             env=env,
@@ -52,7 +52,7 @@ model3 = TQC(policy="MultiInputPolicy",
             buffer_size=1000000,
             batch_size=256,
             gamma=0.95,
-            learning_rate=0.001,
+            learning_rate=0.0001,
             verbose=1,
             policy_kwargs=dict(net_arch=[1024, 1024, 1024], n_critics=2),
             device="cuda"
@@ -94,7 +94,7 @@ for i in layer_num:
         model3.critic.q_networks[1][i].bias.data[512:] = push_rest_layer[1][i-1].bias.data
 
 
-trainer = Trainer(model=model3, target_step=100_000)
+trainer = Trainer(model=model3, target_step=1000_000)
 
 trainer.train()
 print(datetime.datetime.now())
