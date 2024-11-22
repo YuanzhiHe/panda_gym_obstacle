@@ -10,7 +10,7 @@ from stable_baselines3 import (
     TD3,
 )
 
-from tqc_panda import TQC_panda
+# from tqc_panda import TQC_panda
 from trainer import Trainer
 import envs
 
