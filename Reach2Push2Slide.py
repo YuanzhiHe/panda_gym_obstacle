@@ -45,7 +45,7 @@ model2 = TQC(policy="MultiInputPolicy",
             buffer_size=1000000,
             batch_size=256,
             gamma=0.95,
-            learning_rate=0.001,
+            learning_rate=0.0001,
             verbose=1,
             policy_kwargs=dict(net_arch=[512, 512, 512], n_critics=2),
 )
@@ -68,7 +68,7 @@ for i in layer_num:
 model2.critic.q_networks[0][0].bias.data = original_first_layer[0].bias.data
 model2.critic.q_networks[1][0].bias.data = original_first_layer[1].bias.data
 
-trainer = Trainer(model=model2, target_step=4000_000)
+trainer = Trainer(model=model2, target_step=2000_000)
 
 trainer.train()
 print(datetime.datetime.now())
