@@ -48,6 +48,7 @@ model2 = TQC(policy="MultiInputPolicy",
             learning_rate=0.0001,
             verbose=1,
             policy_kwargs=dict(net_arch=[512, 512, 512], n_critics=2),
+            device="cuda"
 )
 
 original_first_layer = [model.critic.q_networks[0][0], model.critic.q_networks[1][0]]
