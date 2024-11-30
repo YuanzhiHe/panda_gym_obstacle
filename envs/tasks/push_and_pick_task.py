@@ -13,7 +13,6 @@ class PushAndPick(Task):
         self,
         sim: PyBulletTest,
         robot: Panda,
-        # algorithm_mode: str = "Push",
         reward_type: str = "sparse",
         distance_threshold: float = 0.05,
         goal_xy_range: float = 0.3,
@@ -27,7 +26,6 @@ class PushAndPick(Task):
         self.tmp_goal = None
         self.reward_type = reward_type
         self.distance_threshold = distance_threshold
-        # self.algorithm_mode = algorithm_mode
         self.object_size = 0.04
         self.obs_num = obs_num
         self.goal_range_low = np.array([-goal_xy_range / 2, -goal_xy_range / 2, 0])
@@ -83,7 +81,6 @@ class PushAndPick(Task):
 
     def reset(self) -> None:
         self.robot.multi_task_gripper = "Push"
-        self.algorithm_mode = "Push"
         self.tmp_goal = [self._sample_goal("Push"), self._sample_goal("Pick")]
         if self.robot.multi_task_gripper == "Push":
             self.goal = self.tmp_goal[0]
@@ -112,7 +109,7 @@ class PushAndPick(Task):
 
     def is_success(self, achieved_goal: np.ndarray, desired_goal: np.ndarray) -> np.ndarray:
         # Succeed only if the final desired goal (PickAndPlace) is achieved
-        if desired_goal.all() == self.tmp_goal[1].all():
+        if np.array_equal(desired_goal, self.tmp_goal[1]):
             d = distance(achieved_goal, self.tmp_goal[1])
             return np.array(d < self.distance_threshold, dtype=bool)
         else:
@@ -126,7 +123,6 @@ class PushAndPick(Task):
                 if self.robot.multi_task_gripper == "Push" and reward == 0.0:
                     reward = reward - 0.5
                     self.robot.multi_task_gripper = "Pick"
-                    # self.algorithm_mode = "Pick"
                 return reward
             else:
                 return -np.array(d > self.distance_threshold, dtype=np.float32)

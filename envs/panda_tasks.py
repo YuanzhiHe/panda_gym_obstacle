@@ -217,7 +217,6 @@ class PandaPushAndPickEnv(RobotTaskEnv):
     ) -> None:
         sim = PyBulletTest(render_mode=render_mode, renderer=renderer)
         robot = Panda(sim, block_gripper=False, base_position=np.array([-0.6, 0.0, 0.0]), control_type=control_type)
-        # algorithm_mode = TQC_panda.mode
         task = PushAndPick(sim, robot, reward_type=reward_type,
                             distance_threshold=distance_threshold,
                             goal_xy_range=goal_xy_range,
