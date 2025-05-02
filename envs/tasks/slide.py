@@ -151,4 +151,9 @@ class Slide(Task):
         if self.reward_type == "sparse":
             return -np.array(d > self.distance_threshold, dtype=np.float32)
         else:
-            return -d.astype(np.float32)
+            reward = -d.astype(np.float32)
+            if type(d) == np.float64:
+                obs_distance = distance(achieved_goal, self.obstacle1_pos)
+                if obs_distance < 0.15:
+                    reward -= 0.15
+            return reward
