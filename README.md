@@ -9,11 +9,9 @@ This repository provides training and evaluation code for Panda Gym tasks with o
 
 **Result figures**:
 
-<img src="demo/panda_pick_transfer.png" width="400" height="300"/>
-<img src="demo/panda_push_obstacle_transfer.png" width="400" height="300"/>
+<img src="demo/panda_pick_transfer.png" width="400" height="300"/> <img src="demo/panda_slide_transfer.png" width="400" height="300"/>
+<img src="demo/panda_push_obstacle_transfer.png" width="400" height="300"/> <img src="demo/panda_slide_obstacle_transfer.png" width="400" height="300"/>
 <img src="demo/panda_reach_transfer.png" width="400" height="300"/>
-<img src="demo/panda_slide_obstacle_transfer.png" width="400" height="300"/>
-<img src="demo/panda_slide_transfer.png" width="400" height="300"/>
 
 ## Structure
 - `envs/` task and environment definitions
