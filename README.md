@@ -1,6 +1,7 @@
-# Panda Gym Obstacle (Anonymous Release)
+# Enhancing Deep Reinforcement Learning for Robotic Motion Planning via Task Decomposition
 
-This repository provides training and evaluation code for Panda Gym tasks with obstacles (Push / Pick / Reach / Slide). For double-blind review, all hard-coded absolute paths have been replaced with relative paths.
+This repository provides DRL+TD training and evaluation code for Panda Gym tasks with obstacles (Push / Pick / Reach / Slide).
+
 
 ## Figures
 **Main pipeline diagram**:
