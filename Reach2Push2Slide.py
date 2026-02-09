@@ -31,7 +31,7 @@ env2 = gym.make(
 )
 
 # PC use
-model = TQC.load("/home/yuanzhihe/PycharmProjects/csv2matplotlib/models/R2PushObs5/model", env=env2)
+model = TQC.load("models/PandaPushObstacle2m_3/model", env=env2)
 
 # supercomputer use
 # model = TQC.load("/scratch/c.c23089110/panda_gym_obstacle/models/R2PushObs5/model", env=env2)
@@ -69,6 +69,7 @@ for i in layer_num:
 
 model2.critic.q_networks[0][0].bias.data = original_first_layer[0].bias.data
 model2.critic.q_networks[1][0].bias.data = original_first_layer[1].bias.data
+
 
 trainer = Trainer(model=model2, target_step=4000_000)
 

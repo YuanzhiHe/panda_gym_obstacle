@@ -2,6 +2,7 @@ import imageio
 import gymnasium as gym
 import numpy as np
 from sb3_contrib import TQC
+import panda_gym
 import envs
 
 env = gym.make(
@@ -10,7 +11,7 @@ env = gym.make(
     obs_num=0
 )
 
-model = TQC.load("/home/yuanzhihe/PycharmProjects/csv2matplotlib/models/PushAndPick9/model", env=env)
+model = TQC.load("../PycharmProjects/csv2matplotlib/models/NOV_16_5/model", env=env)
 
 # obs, _ = env.reset()
 # for i in range(1000):
@@ -20,14 +21,14 @@ model = TQC.load("/home/yuanzhihe/PycharmProjects/csv2matplotlib/models/PushAndP
 
 
 # generate gif image
-
+# for j in range(50):
 images = []
 obs, _ = env.reset()
 img = env.render()
-for i in range(2000):
+for i in range(1500):
     images.append(img)
     action, _ = model.predict(obs)
     obs, _, _, _, _ = env.step(action)
     img = env.render()
 
-imageio.mimsave('PushAndPick3.gif', [np.array(img) for i, img in enumerate(images) if i%2 == 0], fps=20)
+    imageio.mimsave('Visualization/Pick2PushAndPick2.gif', [np.array(img) for i, img in enumerate(images) if i % 2 == 0], fps=20)

@@ -32,14 +32,14 @@ env3 = gym.make(
     render_mode="rgb_array",
 )
 
-# PC use
-# model2 = TQC.load("/home/yuanzhihe/PycharmProjects/csv2matplotlib/models/PandaReach/model", env=env3)
-# model1 = TQC.load("/home/yuanzhihe/PycharmProjects/csv2matplotlib/models/PandaPick/model", env=env1)
-# model = TQC.load("/home/yuanzhihe/PycharmProjects/csv2matplotlib/models/PandaPush2/model", env=env2)
+# PC use (relative paths for anonymized release)
+model2 = TQC.load("models/PandaReach/model", env=env3)
+model1 = TQC.load("models/PandaPick/model", env=env1)
+model = TQC.load("models/PandaPush2/model", env=env2)
 # supercomputer use
-model2 = TQC.load("/scratch/c.c23089110/panda_gym_obstacle/models/PandaReach/model", env=env3)
-model1 = TQC.load("/scratch/c.c23089110/panda_gym_obstacle/models/PandaPick/model", env=env1)
-model = TQC.load("/scratch/c.c23089110/panda_gym_obstacle/models/PandaPush2/model", env=env2)
+# model2 = TQC.load("models/PandaReach/model", env=env3)
+# model1 = TQC.load("models/PandaPick/model", env=env1)
+# model = TQC.load("models/PandaPush2/model", env=env2)
 
 model3 = TQC(policy="MultiInputPolicy",
             env=env,

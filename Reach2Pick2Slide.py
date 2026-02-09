@@ -31,7 +31,7 @@ env2 = gym.make(
 )
 
 # PC use
-model = TQC.load("/home/yuanzhihe/PycharmProjects/csv2matplotlib/models/Reach2PickObs3/model", env=env2)
+model = TQC.load("models/PandaPickObstacle4_1/model", env=env2)
 
 # supercomputer use
 # model = TQC.load("/scratch/c.c23089110/panda_gym_obstacle/models/R2PushObs5/model", env=env2)

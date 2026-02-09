@@ -14,7 +14,7 @@ import envs
 
 env = gym.make(
     "PandaSlide-Obstacle",
-    render_mode="rgb_array",
+    render_mode="human",
     distance_threshold=0.05,
     goal_xy_range=0.2,
     obs_num=1
