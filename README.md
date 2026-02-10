@@ -14,12 +14,13 @@ This repository provides DRL+TD training and evaluation code for Panda Gym tasks
 <img src="demo/panda_push_obstacle_transfer.png" width="400" height="300"/> <img src="demo/panda_slide_obstacle_transfer.png" width="400" height="300"/>
 <img src="demo/panda_reach_transfer.png" width="400" height="300"/>
 
-## Structure
-- `envs/` task and environment definitions
-- `models/` trained / pre-trained models used by scripts
-- `trainer.py` training wrapper
-- `tqc_panda.py` custom TQC implementation
-- `demo/` pipeline and result figures
+## Installation
+
+```bash
+conda create -n panda-obstacle python=3.11
+conda activate panda-obstacle
+pip install -r requirements.txt
+```
 
 ## Run
 Run a training script directly, for example:
@@ -44,7 +45,7 @@ If you use transfer / pre-trained model scripts, ensure the model paths exist (a
 If your models are stored elsewhere, update the relative paths accordingly.
 
 ## Dependencies
-See `requirements.txt` and `requirements_ros.txt`.
+See `requirements.txt`.
 
 ## Repro Steps
 1. Choose a task script (e.g., `PandaPickObstacle.py`).
