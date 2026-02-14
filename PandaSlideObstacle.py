@@ -14,13 +14,13 @@ import envs
 
 env = gym.make(
     "PandaSlide-Obstacle",
-    render_mode="human",
+    render_mode="rgb_array",
     distance_threshold=0.05,
     goal_xy_range=0.2,
     obs_num=1
 )
 
-model = TQC(policy="MultiInputPolicy",
+model = TD3(policy="MultiInputPolicy",
             env=env,
             replay_buffer_class=HerReplayBuffer,
             replay_buffer_kwargs=dict(
