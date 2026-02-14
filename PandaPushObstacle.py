@@ -15,14 +15,14 @@ import envs
 
 env = gym.make(
     "PandaPush-Obstacle",
-    render_mode="human",
-    reward_type="dense",
+    render_mode="rgb_array",
+    # reward_type="dense",
     distance_threshold=0.05,
     goal_xy_range=0.2,
     obs_num=1
 )
 
-model = TQC(policy="MultiInputPolicy",
+model = TD3(policy="MultiInputPolicy",
             env=env,
             replay_buffer_class=HerReplayBuffer,
             replay_buffer_kwargs=dict(
@@ -38,7 +38,7 @@ model = TQC(policy="MultiInputPolicy",
             policy_kwargs=dict(net_arch=[512, 512, 512], n_critics=2),
 )
 
-trainer = Trainer(model=model, target_step=2000_000)
+trainer = Trainer(model=model, target_step=1000_000)
 
 trainer.train()
 print(datetime.datetime.now())
