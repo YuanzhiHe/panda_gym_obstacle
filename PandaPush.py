@@ -17,7 +17,7 @@ env = gym.make(
     render_mode="rgb_array"
 )
 
-model = TD3(policy="MultiInputPolicy",
+model = SAC(policy="MultiInputPolicy",
             env=env,
             replay_buffer_class=HerReplayBuffer,
             replay_buffer_kwargs=dict(
@@ -26,7 +26,7 @@ model = TD3(policy="MultiInputPolicy",
             ),
             tau=0.05,
             buffer_size=1000000,
-            batch_size=9192,
+            batch_size=256,
             gamma=0.95,
             learning_rate=0.001,
             verbose=1,
