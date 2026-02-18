@@ -22,7 +22,7 @@ env = gym.make(
     obs_num=1
 )
 
-model = SAC(policy="MultiInputPolicy",
+model = TD3(policy="MultiInputPolicy",
             env=env,
             replay_buffer_class=HerReplayBuffer,
             replay_buffer_kwargs=dict(
