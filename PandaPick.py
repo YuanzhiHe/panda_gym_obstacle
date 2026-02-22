@@ -16,7 +16,7 @@ env = gym.make(
     render_mode="rgb_array"
 )
 
-model = TD3(policy="MultiInputPolicy",
+model = DDPG(policy="MultiInputPolicy",
             env=env,
             replay_buffer_class=HerReplayBuffer,
             replay_buffer_kwargs=dict(

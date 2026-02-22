@@ -20,7 +20,7 @@ env = gym.make(
     obs_num=1
 )
 
-model = TD3(policy="MultiInputPolicy",
+model = DDPG(policy="MultiInputPolicy",
             env=env,
             replay_buffer_class=HerReplayBuffer,
             replay_buffer_kwargs=dict(
