@@ -104,10 +104,6 @@ class ReachAndPick(Task):
                     reward = -np.array(d1 > self.distance_threshold, dtype=np.float32)
                     if reward == 0.0:
                         reward = reward - 0.5
-                    # else:
-                    #     for num in range(len(reward)):
-                    #         if reward[num] == 0.0 or reward[num] == -0.0:
-                    #             reward[num] = reward[num] - 0.5
                     return reward
             else:
                 return -np.array(d2 > self.distance_threshold, dtype=np.float32)
