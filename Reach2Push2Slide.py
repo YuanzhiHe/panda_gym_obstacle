@@ -30,11 +30,8 @@ env2 = gym.make(
     obs_num=1
 )
 
-# PC use
 model = TQC.load("models/PandaPushObstacle2m_3/model", env=env2)
 
-# supercomputer use
-# model = TQC.load("/scratch/c.c23089110/panda_gym_obstacle/models/R2PushObs5/model", env=env2)
 model2 = TQC(policy="MultiInputPolicy",
             env=env,
             replay_buffer_class=HerReplayBuffer,

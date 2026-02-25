@@ -32,14 +32,10 @@ env3 = gym.make(
     render_mode="rgb_array",
 )
 
-# PC use (relative paths for anonymized release)
 model2 = TQC.load("models/PandaReach/model", env=env3)
 model1 = TQC.load("models/PandaPick/model", env=env1)
 model = TQC.load("models/PandaPush2/model", env=env2)
-# supercomputer use
-# model2 = TQC.load("models/PandaReach/model", env=env3)
-# model1 = TQC.load("models/PandaPick/model", env=env1)
-# model = TQC.load("models/PandaPush2/model", env=env2)
+
 
 model3 = TQC(policy="MultiInputPolicy",
             env=env,

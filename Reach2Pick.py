@@ -24,11 +24,8 @@ env2 = gym.make(
     distance_threshold=0.05,
     obs_num=1
 )
-# PC use
-# model = TQC.load("models/PandaReachObstacle2_1/model", env=env2)
 
-# supercomputer use
-model = TQC.load("/scratch/c.c23089110/panda_gym_obstacle/models/PandaReachObstacle/model", env=env2)
+model = TQC.load("models/PandaReachObstacle2_1/model", env=env2)
 
 model2 = TQC(policy="MultiInputPolicy",
             env=env,
