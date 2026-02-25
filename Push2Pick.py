@@ -19,7 +19,7 @@ env = gym.make(
     obs_num=1
 )
 env2 = gym.make(
-    "PandaReach-Obstacle",
+    "PandaPush-Obstacle",
     render_mode='rgb_array',
     distance_threshold=0.05,
     obs_num=1
