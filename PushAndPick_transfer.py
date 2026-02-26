@@ -69,25 +69,25 @@ model3.critic.q_networks[1][0].weight.data[:512, 6:19] = pick_first_layer[1].wei
 model3.critic.q_networks[1][0].weight.data[512:, 19:40] = push_first_layer[1].weight.data[:, 6:27]
 model3.critic.q_networks[1][0].weight.data[:512, 40] = pick_first_layer[1].weight.data[:, 28]
 
-layer_num = [2,4,6]
-
-for i in layer_num:
-    if i == 6:
-        model3.critic.q_networks[0][i].weight.data[:, :512] = pick_rest_layer[0][i-1].weight.data
-        model3.critic.q_networks[1][i].weight.data[:, :512] = pick_rest_layer[1][i-1].weight.data
-        model3.critic.q_networks[0][i].weight.data[:, 512:] = push_rest_layer[0][i-1].weight.data
-        model3.critic.q_networks[1][i].weight.data[:, 512:] = push_rest_layer[1][i-1].weight.data
-        model3.critic.q_networks[0][i].bias.data = push_rest_layer[0][i-1].bias.data
-        model3.critic.q_networks[1][i].bias.data = push_rest_layer[1][i-1].bias.data
-    else:
-        model3.critic.q_networks[0][i].weight.data[:512, :512] = pick_rest_layer[0][i-1].weight.data
-        model3.critic.q_networks[1][i].weight.data[:512, :512] = pick_rest_layer[1][i-1].weight.data
-        model3.critic.q_networks[0][i].weight.data[512:, 512:] = push_rest_layer[0][i-1].weight.data
-        model3.critic.q_networks[1][i].weight.data[512:, 512:] = push_rest_layer[1][i-1].weight.data
-        model3.critic.q_networks[0][i].bias.data[:512] = pick_rest_layer[0][i-1].bias.data
-        model3.critic.q_networks[1][i].bias.data[:512] = pick_rest_layer[1][i-1].bias.data
-        model3.critic.q_networks[0][i].bias.data[512:] = push_rest_layer[0][i-1].bias.data
-        model3.critic.q_networks[1][i].bias.data[512:] = push_rest_layer[1][i-1].bias.data
+# For testing transfer all layers.
+# layer_num = [2,4,6]
+# for i in layer_num:
+#     if i == 6:
+#         model3.critic.q_networks[0][i].weight.data[:, :512] = pick_rest_layer[0][i-1].weight.data
+#         model3.critic.q_networks[1][i].weight.data[:, :512] = pick_rest_layer[1][i-1].weight.data
+#         model3.critic.q_networks[0][i].weight.data[:, 512:] = push_rest_layer[0][i-1].weight.data
+#         model3.critic.q_networks[1][i].weight.data[:, 512:] = push_rest_layer[1][i-1].weight.data
+#         model3.critic.q_networks[0][i].bias.data = push_rest_layer[0][i-1].bias.data
+#         model3.critic.q_networks[1][i].bias.data = push_rest_layer[1][i-1].bias.data
+#     else:
+#         model3.critic.q_networks[0][i].weight.data[:512, :512] = pick_rest_layer[0][i-1].weight.data
+#         model3.critic.q_networks[1][i].weight.data[:512, :512] = pick_rest_layer[1][i-1].weight.data
+#         model3.critic.q_networks[0][i].weight.data[512:, 512:] = push_rest_layer[0][i-1].weight.data
+#         model3.critic.q_networks[1][i].weight.data[512:, 512:] = push_rest_layer[1][i-1].weight.data
+#         model3.critic.q_networks[0][i].bias.data[:512] = pick_rest_layer[0][i-1].bias.data
+#         model3.critic.q_networks[1][i].bias.data[:512] = pick_rest_layer[1][i-1].bias.data
+#         model3.critic.q_networks[0][i].bias.data[512:] = push_rest_layer[0][i-1].bias.data
+#         model3.critic.q_networks[1][i].bias.data[512:] = push_rest_layer[1][i-1].bias.data
 
 
 trainer = Trainer(model=model3, target_step=1000_000)

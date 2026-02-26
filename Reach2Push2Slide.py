@@ -30,7 +30,7 @@ env2 = gym.make(
     obs_num=1
 )
 
-model = TQC.load("models/PandaPushObstacle2m_3/model", env=env2)
+model = TQC.load("models/R2PushObs5/model", env=env2)
 
 model2 = TQC(policy="MultiInputPolicy",
             env=env,
@@ -57,12 +57,13 @@ model2.critic.q_networks[1][0].weight.data = original_first_layer[1].weight.data
 model2.critic.q_networks[0][0].bias.data = original_first_layer[0].bias.data
 model2.critic.q_networks[1][0].bias.data = original_first_layer[1].bias.data
 
-layer_num = [2,4,6]
-for i in layer_num:
-    model2.critic.q_networks[0][i].weight.data = original_rest_layer[0][i-1].weight.data
-    model2.critic.q_networks[1][i].weight.data = original_rest_layer[1][i-1].weight.data
-    model2.critic.q_networks[0][i].bias.data = original_rest_layer[0][i-1].bias.data
-    model2.critic.q_networks[1][i].bias.data = original_rest_layer[1][i-1].bias.data
+# For testing transfer all layers.
+# layer_num = [2,4,6]
+# for i in layer_num:
+#     model2.critic.q_networks[0][i].weight.data = original_rest_layer[0][i-1].weight.data
+#     model2.critic.q_networks[1][i].weight.data = original_rest_layer[1][i-1].weight.data
+#     model2.critic.q_networks[0][i].bias.data = original_rest_layer[0][i-1].bias.data
+#     model2.critic.q_networks[1][i].bias.data = original_rest_layer[1][i-1].bias.data
 
 model2.critic.q_networks[0][0].bias.data = original_first_layer[0].bias.data
 model2.critic.q_networks[1][0].bias.data = original_first_layer[1].bias.data

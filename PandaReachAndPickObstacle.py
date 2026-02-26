@@ -54,6 +54,7 @@ model2 = TQC(policy="MultiInputPolicy",
 # model2.critic.q_networks[1][0].weight.data[:,19:22] = original_first_layer[1].weight.data[:,6:9]
 # model2.critic.q_networks[1][0].weight.data[:,23:] = original_first_layer[1].weight.data[:,9:]
 #
+# For testing transfer all layers.
 # layer_num = [2,4,6]
 # for i in layer_num:
 #     model2.critic.q_networks[0][i].weight.data = original_rest_layer[0][i-1].weight.data

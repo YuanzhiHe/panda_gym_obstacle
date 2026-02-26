@@ -49,12 +49,13 @@ model2.critic.q_networks[1][0].weight.data[:,:6] = original_first_layer[1].weigh
 # model2.critic.q_networks[1][0].weight.data[:,19:22] = original_first_layer[1].weight.data[:,6:9]
 # model2.critic.q_networks[1][0].weight.data[:,23:] = original_first_layer[1].weight.data[:,9:]
 
-layer_num = [2,4,6]
-for i in layer_num:
-    model2.critic.q_networks[0][i].weight.data = original_rest_layer[0][i-1].weight.data
-    model2.critic.q_networks[1][i].weight.data = original_rest_layer[1][i-1].weight.data
-    model2.critic.q_networks[0][i].bias.data = original_rest_layer[0][i-1].bias.data
-    model2.critic.q_networks[1][i].bias.data = original_rest_layer[1][i-1].bias.data
+# For testing transfer all layers.
+# layer_num = [2,4,6]
+# for i in layer_num:
+#     model2.critic.q_networks[0][i].weight.data = original_rest_layer[0][i-1].weight.data
+#     model2.critic.q_networks[1][i].weight.data = original_rest_layer[1][i-1].weight.data
+#     model2.critic.q_networks[0][i].bias.data = original_rest_layer[0][i-1].bias.data
+#     model2.critic.q_networks[1][i].bias.data = original_rest_layer[1][i-1].bias.data
 
 model2.critic.q_networks[0][0].bias.data = original_first_layer[0].bias.data
 model2.critic.q_networks[1][0].bias.data = original_first_layer[1].bias.data
