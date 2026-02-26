@@ -24,13 +24,12 @@ env = gym.make(
 env2 = gym.make(
     "PandaPickAndPlace-Obstacle",
     render_mode="rgb_array",
-    # reward_type="dense",
     distance_threshold=0.05,
     goal_xy_range=0.2,
     obs_num=1
 )
 
-model = TQC.load("models/PandaPickObstacle4_1/model", env=env2)
+model = TQC.load("models/Reach2PickObs3/model", env=env2)
 
 model2 = TQC(policy="MultiInputPolicy",
             env=env,
