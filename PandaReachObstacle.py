@@ -14,7 +14,7 @@ import envs
 
 env = gym.make(
     "PandaReach-Obstacle",
-    render_mode='human',
+    render_mode='rgb_array',
     distance_threshold=0.05,
     obs_num=1
 )
