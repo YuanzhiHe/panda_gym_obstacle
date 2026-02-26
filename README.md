@@ -8,11 +8,21 @@ This repository provides DRL+TD training and evaluation code for Panda Gym tasks
 
 <img src="demo/final.png" width="700" height="360"/>
 
-**Result figures**:
+**Franka demo**:
 
-<img src="demo/panda_pick_transfer.png" width="400" height="300"/> <img src="demo/panda_slide_transfer.png" width="400" height="300"/>
-<img src="demo/panda_push_obstacle_transfer.png" width="400" height="300"/> <img src="demo/panda_slide_obstacle_transfer.png" width="400" height="300"/>
-<img src="demo/panda_reach_transfer.png" width="400" height="300"/>
+<img src="demo/franka_demo.gif" width="200"/>
+
+## Main Results
+
+Success rate (mean ± std over 3 runs) compared with DRL baselines (DDPG, TD3, SAC, TQC) across all tasks under obstacle and obstacle-free settings.
+
+| Algorithm | Push (Obstacle) | Push (Obstacle-free) | Pick&Place (Obstacle) | Pick&Place (Obstacle-free) | Slide (Obstacle) | Slide (Obstacle-free) |
+| --- | --- | --- | --- | --- | --- | --- |
+| DDPG | 0.40 ± 0.27 | 0.93 ± 0.10 | 0.11 ± 0.19 | 0.16 ± 0.06 | 0.51 ± 0.25 | 0.64 ± 0.03 |
+| TD3 | 0.16 ± 0.14 | 1.00 ± 0.01 | 0.23 ± 0.21 | 0.20 ± 0.04 | 0.31 ± 0.36 | 0.37 ± 0.32 |
+| SAC | 0.43 ± 0.04 | 1.00 ± 0.01 | 0.33 ± 0.08 | 0.43 ± 0.03 | 0.84 ± 0.06 | 0.96 ± 0.03 |
+| TQC | 0.77 ± 0.06 | **1.00 ± 0.00** | **0.67 ± 0.22** | 0.98 ± 0.02 | 0.73 ± 0.09 | 0.93 ± 0.04 |
+| Ours | **0.83 ± 0.05** | **1.00 ± 0.00** | 0.57 ± 0.25 | **0.99 ± 0.01** | **0.95 ± 0.02** | **0.98 ± 0.01** |
 
 ## Installation
 
