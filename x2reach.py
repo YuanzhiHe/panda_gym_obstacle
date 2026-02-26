@@ -15,10 +15,15 @@ import envs
 env = gym.make(
     "PandaReach-Obstacle",
     render_mode="rgb_array",
+    distance_threshold=0.05,
+    obs_num=1
 )
 env2 = gym.make(
     "PandaPickAndPlace-Obstacle",
     render_mode='rgb_array',
+    distance_threshold=0.05,
+    goal_xy_range=0.2,
+    obs_num=1
 )
 
 model = TQC.load("models/PandaPickObs_TQC_HER/model", env=env2)
@@ -43,11 +48,7 @@ original_first_layer = [model.critic.q_networks[0][0], model.critic.q_networks[1
 original_rest_layer = [model.critic.q_networks[0][1:], model.critic.q_networks[1][1:]]
 
 model2.critic.q_networks[0][0].weight.data[:,:6] = original_first_layer[0].weight.data[:,:6]
-# model2.critic.q_networks[0][0].weight.data[:,19:22] = original_first_layer[0].weight.data[:,6:9]
-# model2.critic.q_networks[0][0].weight.data[:,23:] = original_first_layer[0].weight.data[:,9:]
 model2.critic.q_networks[1][0].weight.data[:,:6] = original_first_layer[1].weight.data[:,:6]
-# model2.critic.q_networks[1][0].weight.data[:,19:22] = original_first_layer[1].weight.data[:,6:9]
-# model2.critic.q_networks[1][0].weight.data[:,23:] = original_first_layer[1].weight.data[:,9:]
 
 # For testing transfer all layers.
 # layer_num = [2,4,6]
