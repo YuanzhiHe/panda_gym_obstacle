@@ -15,15 +15,10 @@ import envs
 env = gym.make(
     "PandaReachAndPick",
     render_mode="rgb_array",
-    distance_threshold=0.05,
-    goal_xy_range=0.2,
-    obs_num=1
 )
 env2 = gym.make(
     "PandaReach",
     render_mode='rgb_array',
-    distance_threshold=0.05,
-    obs_num=1
 )
 
 
