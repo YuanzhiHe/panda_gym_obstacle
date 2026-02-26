@@ -1,7 +1,7 @@
 import datetime
 
 import gymnasium as gym
-# import panda_gym
+import panda_gym
 from sb3_contrib import TQC
 from stable_baselines3 import (
     DDPG,
@@ -13,21 +13,21 @@ from trainer import Trainer
 import envs
 
 env = gym.make(
-    "PandaReachAndPick-Obstacle",
+    "PandaReachAndPick",
     render_mode="rgb_array",
     distance_threshold=0.05,
     goal_xy_range=0.2,
     obs_num=1
 )
 env2 = gym.make(
-    "PandaReach-Obstacle",
+    "PandaReach",
     render_mode='rgb_array',
     distance_threshold=0.05,
     obs_num=1
 )
 
 
-model = TQC.load("models/PandaReachObstacle2_1/model", env=env2)
+model = TQC.load("models/PandaReach_TQC_HER/model", env=env2)
 
 model2 = TQC(policy="MultiInputPolicy",
             env=env,
