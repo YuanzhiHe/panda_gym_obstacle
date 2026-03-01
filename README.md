@@ -39,18 +39,7 @@ Run a training script directly, for example:
 python PandaPickObstacle.py
 ```
 
-If you use transfer / pre-trained model scripts, ensure the model paths exist (all are relative paths).
-
-`PushAndPick_transfer.py` loads:
-- `models/PandaReach/model`
-- `models/PandaPick/model`
-- `models/PandaPush2/model`
-
-`Reach2Pick2Slide.py` loads:
-- `models/PandaPickObstacle4_1/model`
-
-`Reach2Push2Slide.py` loads:
-- `models/PandaPushObstacle2m_3/model`
+If you use transfer / pre-trained model scripts (e.g. Reach2Push.py), ensure the model paths exist.
 
 If your models are stored elsewhere, update the relative paths accordingly.
 
